@@ -12,6 +12,7 @@ import com.adriav.tcgpokemon.views.allview.AllSeriesScreen
 import com.adriav.tcgpokemon.views.allview.AllSetsScreen
 import com.adriav.tcgpokemon.views.HomeScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
+import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
 
 @Composable
 fun NavigationWrapper() {
@@ -32,7 +33,12 @@ fun NavigationWrapper() {
                 AllSetsScreen()
             }
             entry<SingleSerie> {
-                SingleSerieScreen(it.id)
+                SingleSerieScreen(it.id) {
+                    setID -> backStack.add(SingleSet(setID))
+                }
+            }
+            entry<SingleSet> {
+                SingleSetScreen(it.id)
             }
         }
     )

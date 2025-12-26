@@ -1,12 +1,15 @@
 package com.adriav.tcgpokemon.views.items
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,17 +28,23 @@ import net.tcgdex.sdk.models.CardResume
 fun CardItemView(cardResume: CardResume, index: Int) {
     Box(
         modifier = Modifier
-            .padding(vertical = 8.dp)
+            .padding(vertical = 16.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
-        Card() {
+        Card {
             Column(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
                     .padding(horizontal = 8.dp)
             ) {
-                Text(text = "$index - ${cardResume.name}", fontWeight = FontWeight.Bold)
+                Row (
+                    modifier = Modifier.width(300.dp).padding(bottom = 4.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(text = "$index - ${cardResume.name} - ${cardResume.id}", fontWeight = FontWeight.Bold)
+                    Icon(painterResource(R.drawable.baseline_check_24), contentDescription = "a")
+                }
                 val cardImage =
                     cardResume.getImageUrl(Quality.HIGH, Extension.WEBP)
                         .replace("HIGH", "high")

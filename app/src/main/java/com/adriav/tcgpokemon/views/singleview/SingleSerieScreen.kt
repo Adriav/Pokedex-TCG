@@ -1,5 +1,6 @@
 package com.adriav.tcgpokemon.views.singleview
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,7 @@ import net.tcgdex.sdk.models.Serie
 import net.tcgdex.sdk.models.SetResume
 
 @Composable
-fun SingleSerieScreen(serieID: String) {
+fun SingleSerieScreen(serieID: String, navigateToSet: (String) -> Unit) {
     val tcgdex = TCGdexProvider.tcgdex
     var serie by remember { mutableStateOf<Serie?>(null) }
     var sets by remember { mutableStateOf<List<SetResume?>>(emptyList()) }
@@ -53,9 +54,18 @@ fun SingleSerieScreen(serieID: String) {
         Column(modifier = Modifier.fillMaxWidth()) {
             SerieHeader(serie!!, sets)
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            LazyColumn(modifier = Modifier.padding(bottom = 32.dp)) {
-                items(sets.size) {index ->
-                    SetItemView(sets[index]!!)
+            LazyColumn(
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+            ) {
+                items(sets.size) { index ->
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                navigateToSet(sets[index]!!.id)
+                            }) {
+                        SetItemView(sets[index]!!)
+                    }
                 }
             }
         }
@@ -63,7 +73,7 @@ fun SingleSerieScreen(serieID: String) {
 }
 
 @Composable
-fun SerieHeader (serie: Serie, sets: List<SetResume?>) {
+fun SerieHeader(serie: Serie, sets: List<SetResume?>) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
