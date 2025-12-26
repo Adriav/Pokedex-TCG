@@ -30,7 +30,7 @@ fun SetItemView(setResume: SetResume) {
                 .padding(top = 8.dp)
                 .padding(horizontal = 8.dp)
         ) {
-            var setLogo = setResume.getLogoUrl(Extension.WEBP)
+            val setLogo = setResume.getLogoUrl(Extension.WEBP)
             AsyncImage(
                 model = setLogo,
                 contentDescription = setResume.id,
@@ -42,6 +42,7 @@ fun SetItemView(setResume: SetResume) {
                 error = painterResource(R.drawable.verror_code_vector_icon)
             )
             Column(modifier = Modifier.padding(start = 8.dp)) {
+                // Text(text = "ID: ${setResume.id}")
                 Text(text = "Nombre: ${setResume.name}")
                 Text(text = "Total: ${setResume.cardCount.total}")
                 Text(text = "Oficial: ${setResume.cardCount.official}")

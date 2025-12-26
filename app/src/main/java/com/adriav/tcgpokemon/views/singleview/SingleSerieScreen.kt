@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -42,9 +41,8 @@ fun SingleSerieScreen(serieID: String) {
     var sets by remember { mutableStateOf<List<SetResume?>>(emptyList()) }
 
     LaunchedEffect(Unit) {
-        val api = tcgdex
         serie = withContext(Dispatchers.IO) {
-            api.fetchSerie(serieID)
+            tcgdex.fetchSerie(serieID)
         }
         sets = serie?.sets!!
     }
@@ -97,9 +95,7 @@ fun SerieHeader (serie: Serie, sets: List<SetResume?>) {
         Row {
             Text(text = "Sets: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
             Text(text = sets.size.toString(), fontSize = 20.sp)
-
         }
-
     }
 
 }

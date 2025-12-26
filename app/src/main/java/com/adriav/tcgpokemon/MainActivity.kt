@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.adriav.tcgpokemon.navigation.NavigationWrapper
 import com.adriav.tcgpokemon.ui.theme.TCGPokemonTheme
-import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
+import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -24,8 +24,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
                     .padding(all = 16.dp)) {
-                    NavigationWrapper()
-                    // SingleSerieScreen("base")
+                    // NavigationWrapper()
+                    SingleSetScreen("base1")
                 }
             }
         }
