@@ -41,7 +41,7 @@ fun CardItemView(cardResume: CardResume, index: Int) {
                     modifier = Modifier.width(300.dp).padding(bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "$index - ${cardResume.name} : ${cardResume.id}", fontWeight = FontWeight.Bold)
+                    Text(text = "$index - ${cardResume.name}", fontWeight = FontWeight.Bold)
                     Icon(painterResource(R.drawable.baseline_check_24), contentDescription = "a")
                 }
                 val cardImage =

@@ -11,6 +11,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.adriav.tcgpokemon.models.AllSeriesViewModel
 import com.adriav.tcgpokemon.models.AllSetsViewModel
 import com.adriav.tcgpokemon.models.HomeViewModel
+import com.adriav.tcgpokemon.models.SingleCardViewModel
 import com.adriav.tcgpokemon.models.SingleSerieViewModel
 import com.adriav.tcgpokemon.models.SingleSetViewModel
 import com.adriav.tcgpokemon.navigation.Routes.AllSeries
@@ -70,8 +71,9 @@ fun NavigationWrapper() {
                     backStack.add(SingleCard(cardID))
                 }
             }
-            entry<SingleCard> {
-                SingleCardScreen(it.cardID)
+            entry<SingleCard> { args ->
+                val viewModel = hiltViewModel<SingleCardViewModel>()
+                SingleCardScreen(viewModel, args.cardID)
             }
         }
     )
