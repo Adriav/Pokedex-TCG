@@ -12,6 +12,7 @@ import com.adriav.tcgpokemon.models.AllSeriesViewModel
 import com.adriav.tcgpokemon.models.AllSetsViewModel
 import com.adriav.tcgpokemon.models.HomeViewModel
 import com.adriav.tcgpokemon.models.SingleSerieViewModel
+import com.adriav.tcgpokemon.models.SingleSetViewModel
 import com.adriav.tcgpokemon.navigation.Routes.AllSeries
 import com.adriav.tcgpokemon.navigation.Routes.AllSets
 import com.adriav.tcgpokemon.navigation.Routes.Home
@@ -63,8 +64,9 @@ fun NavigationWrapper() {
                     }
                 )
             }
-            entry<SingleSet> {
-                SingleSetScreen(it.setID) { cardID ->
+            entry<SingleSet> {args ->
+                val viewModel = hiltViewModel<SingleSetViewModel>()
+                SingleSetScreen(viewModel = viewModel, setID = args.setID) { cardID ->
                     backStack.add(SingleCard(cardID))
                 }
             }
