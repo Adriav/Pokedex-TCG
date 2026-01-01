@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.adriav.tcgpokemon.models.AllSeriesViewModel
 import com.adriav.tcgpokemon.models.HomeViewModel
+import com.adriav.tcgpokemon.models.SingleSerieViewModel
 import com.adriav.tcgpokemon.navigation.Routes.AllSeries
 import com.adriav.tcgpokemon.navigation.Routes.AllSets
 import com.adriav.tcgpokemon.navigation.Routes.Home
@@ -23,10 +25,7 @@ import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
 
 @Composable
-fun NavigationWrapper(
-    homeViewModel: HomeViewModel = HomeViewModel(),
-    seriesViewModel: AllSeriesViewModel = AllSeriesViewModel()
-) {
+fun NavigationWrapper() {
     val backStack = rememberNavBackStack(Home)
     NavDisplay(
         modifier = Modifier.padding(top = 16.dp),
@@ -34,6 +33,7 @@ fun NavigationWrapper(
         onBack = { backStack.removeLastOrNull() },
         entryProvider = entryProvider {
             entry<Home> {
+                val homeViewModel = hiltViewModel<HomeViewModel>()
                 HomeScreen(
                     navigateToAllSets = { backStack.add(AllSets) },
                     navigateToAllSeries = { backStack.add(AllSeries) },
@@ -41,6 +41,7 @@ fun NavigationWrapper(
                 )
             }
             entry<AllSeries> {
+                val seriesViewModel = hiltViewModel<AllSeriesViewModel>()
                 AllSeriesScreen (viewModel = seriesViewModel) { serieID ->
                     backStack.add(SingleSerie(serieID))
                 }
@@ -48,10 +49,15 @@ fun NavigationWrapper(
             entry<AllSets> {
                 AllSetsScreen()
             }
-            entry<SingleSerie> {
-                SingleSerieScreen(it.serieID) { setID ->
-                    backStack.add(SingleSet(setID))
-                }
+            entry<SingleSerie> { args ->
+                val viewModel = hiltViewModel<SingleSerieViewModel>()
+                SingleSerieScreen(
+                    viewModel = viewModel,
+                    serieID = args.serieID,
+                    navigateToSet = { setID ->
+                        backStack.add(SingleSet(setID))
+                    }
+                )
             }
             entry<SingleSet> {
                 SingleSetScreen(it.setID) { cardID ->

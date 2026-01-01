@@ -24,7 +24,7 @@ import net.tcgdex.sdk.models.Card
 
 @Composable
 fun SingleCardScreen(cardID: String) {
-    val tcgdex = TCGdexProvider.tcgdex
+    val tcgdex = TCGdexProvider.provideTCGdex()
     var card by remember { mutableStateOf<Card?>(null) }
 
     LaunchedEffect(Unit) {

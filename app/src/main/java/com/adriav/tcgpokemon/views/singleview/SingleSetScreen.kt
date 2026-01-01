@@ -37,7 +37,7 @@ import net.tcgdex.sdk.models.Set
 
 @Composable
 fun SingleSetScreen(setID: String, navigateToCard: (String) -> Unit) { // "neo2"
-    val tcgdex = TCGdexProvider.tcgdex
+    val tcgdex = TCGdexProvider.provideTCGdex()
     var set by remember { mutableStateOf<Set?>(null) }
     var cards by remember { mutableStateOf<List<CardResume>>(emptyList()) }
 

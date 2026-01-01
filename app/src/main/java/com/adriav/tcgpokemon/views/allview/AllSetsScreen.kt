@@ -21,7 +21,7 @@ import net.tcgdex.sdk.models.SetResume
 
 @Composable
 fun AllSetsScreen() {
-    val tcgdex = TCGdexProvider.tcgdex
+    val tcgdex = TCGdexProvider.provideTCGdex()
     var cardSets: Array<SetResume>? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {
@@ -35,7 +35,9 @@ fun AllSetsScreen() {
     } else {
         Column {
             AppHeader("Todas los Sets")
-            LazyColumn(modifier = Modifier.padding(bottom = 32.dp)) {
+            LazyColumn(
+                modifier = Modifier.padding(bottom = 32.dp)
+            ) {
                 items(cardSets!!.size) { index ->
                     SetItemView(cardSets!![index])
                 }
