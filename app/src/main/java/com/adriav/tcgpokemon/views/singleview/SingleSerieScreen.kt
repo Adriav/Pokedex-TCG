@@ -58,10 +58,7 @@ fun SetsItems(
     sets: List<SetResume?>,
     navigateToSet: (String) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(bottom = 32.dp)
-    ) {
+    LazyColumn {
         items(sets.size) { index ->
             Box(
                 modifier = Modifier

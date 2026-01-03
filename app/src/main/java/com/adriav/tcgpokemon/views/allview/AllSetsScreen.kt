@@ -33,9 +33,7 @@ fun AllSetsScreen(viewModel: AllSetsViewModel, navigateToSet: (String) -> Unit) 
 
 @Composable
 fun SetsItems(cardSets: Array<SetResume>, navigateToSet: (String) -> Unit) {
-    LazyColumn(
-        modifier = Modifier.padding(bottom = 32.dp)
-    ) {
+    LazyColumn {
         items(cardSets.size) { index ->
             Box(
                 modifier = Modifier

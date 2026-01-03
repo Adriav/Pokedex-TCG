@@ -31,7 +31,11 @@ import net.tcgdex.sdk.models.CardResume
 import net.tcgdex.sdk.models.Set
 
 @Composable
-fun SingleSetScreen(viewModel: SingleSetViewModel, setID: String, navigateToCard: (String) -> Unit) {
+fun SingleSetScreen(
+    viewModel: SingleSetViewModel,
+    setID: String,
+    navigateToCard: (String) -> Unit
+) {
     val set by viewModel.set.observeAsState(null)
     val cards by viewModel.setCards.observeAsState(null)
 
@@ -126,10 +130,12 @@ fun SetHeader(set: Set) {
 
 @Composable
 fun CardsItems(cards: List<CardResume>, navigateToCard: (String) -> Unit) {
-    LazyColumn(modifier = Modifier.padding(bottom = 32.dp)) {
+    LazyColumn {
         items(cards.size) { index ->
-            Box (modifier = Modifier.padding(vertical = 16.dp)
-                .clickable{navigateToCard(cards[index].id)}) {
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .clickable { navigateToCard(cards[index].id) }) {
                 CardItemView(cards[index], index + 1)
             }
         }

@@ -22,10 +22,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TCGPokemonTheme {
-                Scaffold(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(all = 16.dp)) {
-                     NavigationWrapper()
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(all = 16.dp)
+                        .padding(bottom = 32.dp)
+                ) {
+                    NavigationWrapper()
                 }
             }
         }

@@ -35,9 +35,7 @@ fun SeriesItems(
 ) {
     Column {
         AppHeader("Todas las Series")
-        LazyColumn(
-            modifier = Modifier.padding(bottom = 32.dp)
-        ) {
+        LazyColumn {
             items(cardSeries!!.size) { index ->
                 Box(
                     modifier = Modifier
