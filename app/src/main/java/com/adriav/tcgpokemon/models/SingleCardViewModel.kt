@@ -23,7 +23,7 @@ class SingleCardViewModel @Inject constructor(
     private val _cardID = MutableLiveData<String>()
     private val _cardName = MutableLiveData<String>()
     val cardName = _cardName
-    private val _cardIllustrator = MutableLiveData<String>()
+    private val _cardIllustrator = MutableLiveData<String?>()
     val cardIllustrator = _cardIllustrator
     private val _cardRarity = MutableLiveData<String>()
     val cardRarity = _cardRarity
