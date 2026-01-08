@@ -15,7 +15,20 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
     private val _selectedEnergy = MutableStateFlow<EnergyType?>(null)
     val selectedEnergy = _selectedEnergy
 
-    val filteredCollection = combine(collection, selectedEnergy) { cards, energyType ->
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery
+
+    val filteredCollection = combine(collection, selectedEnergy, searchQuery)
+    { cards, energyType, query ->
+        cards.filter { card ->
+            val matchesEnergy = energyType == null || card.type!!.equals(energyType.apiName, ignoreCase = true)
+            val matchesQuery = query.isBlank()|| card.name.contains(query, ignoreCase = true)
+
+            matchesEnergy && matchesQuery
+        }
+    }
+
+    val filteredCollectionOld = combine(collection, selectedEnergy) { cards, energyType ->
         if (energyType == null) {
             cards
         } else {
@@ -27,6 +40,10 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
 
     fun selectEnergy(energyType: EnergyType?) {
         _selectedEnergy.value = energyType
+    }
+
+    fun onSearchQuery(query: String) {
+        _searchQuery.value = query
     }
 
 }

@@ -10,13 +10,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -44,8 +50,11 @@ fun MyCollectionScreen(
     val selectedEnergy by viewModel.selectedEnergy
         .collectAsState()
 
+    val searchQuery by viewModel.searchQuery.collectAsState()
+
 
     Column {
+        CollectionSearchBar(query = searchQuery, onQueryChange = viewModel::onSearchQuery)
         EnergyFilterRow(selectedEnergy, viewModel::selectEnergy)
         Spacer(modifier = Modifier.height(8.dp))
         if (cards.isEmpty()) {
@@ -74,6 +83,21 @@ fun MyCollectionScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CollectionSearchBar(query: String, onQueryChange: (String) -> Unit) {
+    SearchBar(
+        query = query,
+        onQueryChange = onQueryChange,
+        onSearch = {},
+        active = false,
+        onActiveChange = {},
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+        placeholder = { Text("Search") },
+        leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search") }
+    ) { }
+}
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ShowEmptyCollection() {
@@ -84,7 +108,9 @@ fun ShowEmptyCollection() {
     ) {
         Column {
             Box(
-                modifier = Modifier.fillMaxWidth().height(300.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(
