@@ -26,7 +26,7 @@ sealed class Routes: NavKey {
     data object MyCollection: Routes()
 
     @Serializable
-    data class CardSearchResult(val query: String): Routes()
+    data object CardSearchResult: Routes()
 
     @Serializable
     data object Error: Routes()

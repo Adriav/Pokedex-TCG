@@ -24,7 +24,7 @@ import net.tcgdex.sdk.Quality
 import net.tcgdex.sdk.models.CardResume
 
 @Composable
-fun CardItemView(cardResume: CardResume, index: Int) {
+fun CardItemView(cardResume: CardResume, index: Int? = null) {
     Box(
         modifier = Modifier
             .fillMaxWidth(),
@@ -37,10 +37,16 @@ fun CardItemView(cardResume: CardResume, index: Int) {
                     .padding(horizontal = 8.dp)
             ) {
                 Row (
-                    modifier = Modifier.width(300.dp).padding(bottom = 4.dp),
+                    modifier = Modifier
+                        .width(300.dp)
+                        .padding(bottom = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(text = "$index - ${cardResume.name}", fontWeight = FontWeight.Bold)
+                    if (index != null) {
+                        Text(text = "$index - ${cardResume.name}", fontWeight = FontWeight.Bold)
+                    } else {
+                        Text(text = cardResume.name, fontWeight = FontWeight.Bold)
+                    }
                 }
                 val cardImage =
                     cardResume.getImageUrl(Quality.LOW, Extension.WEBP)

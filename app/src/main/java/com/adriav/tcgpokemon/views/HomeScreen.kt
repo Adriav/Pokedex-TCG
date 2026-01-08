@@ -22,6 +22,7 @@ fun HomeScreen(
     navigateToAllSeries: () -> Unit,
     navigateToAllSets: () -> Unit,
     navigateToMyCollection: () -> Unit,
+    navigateToSearchScreen: () -> Unit,
     viewModel: HomeViewModel
 ) {
     val searchText: String by viewModel.searchText.observeAsState("")
@@ -70,5 +71,13 @@ fun HomeScreen(
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
         ) { Text(text = "All Sets", fontSize = 16.sp) }
+
+        // Search API Cards
+        Button(
+            onClick = { navigateToSearchScreen() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "Search Cards", fontSize = 16.sp) }
     }
 }

@@ -326,7 +326,8 @@ private fun ShowAbilities(cardAbilities: List<CardAbility>) {
                     Text(
                         text = ability.name,
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = colorResource(R.color.BattleTraits)
                     )
                     HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
                     Text(text = ability.effect, fontSize = 18.sp)
@@ -347,7 +348,8 @@ private fun ShowAttacks(cardAttacks: List<CardAttack>) {
                         modifier = Modifier
                             .fillMaxWidth()
                     ) {
-                        EnergyIconRow(attack.cost!!)
+                        EnergyIconRow(attack.cost?: emptyList())
+                        Text(text = attack.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                         attack.damage?.let {
                             Text(
                                 text = it,

@@ -1,5 +1,6 @@
 package com.adriav.tcgpokemon.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
@@ -9,6 +10,7 @@ import com.adriav.tcgpokemon.models.AllSeriesViewModel
 import com.adriav.tcgpokemon.models.AllSetsViewModel
 import com.adriav.tcgpokemon.models.HomeViewModel
 import com.adriav.tcgpokemon.models.MyCollectionViewModel
+import com.adriav.tcgpokemon.models.SearchCardViewModel
 import com.adriav.tcgpokemon.models.SingleCardViewModel
 import com.adriav.tcgpokemon.models.SingleSerieViewModel
 import com.adriav.tcgpokemon.models.SingleSetViewModel
@@ -22,6 +24,7 @@ import com.adriav.tcgpokemon.views.HomeScreen
 import com.adriav.tcgpokemon.views.MyCollectionScreen
 import com.adriav.tcgpokemon.views.allview.AllSeriesScreen
 import com.adriav.tcgpokemon.views.allview.AllSetsScreen
+import com.adriav.tcgpokemon.views.search.SearchCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
@@ -38,7 +41,8 @@ fun NavigationWrapper() {
                 HomeScreen(
                     navigateToAllSets = { backStack.add(AllSets) },
                     navigateToAllSeries = { backStack.add(AllSeries) },
-                    navigateToMyCollection = {backStack.add(Routes.MyCollection)},
+                    navigateToMyCollection = { backStack.add(Routes.MyCollection) },
+                    navigateToSearchScreen = { backStack.add(Routes.CardSearchResult) },
                     viewModel = homeViewModel
                 )
             }
@@ -82,6 +86,14 @@ fun NavigationWrapper() {
             entry<Routes.MyCollection> {
                 val myCollectionViewModel = hiltViewModel<MyCollectionViewModel>()
                 MyCollectionScreen(viewModel = myCollectionViewModel) { cardID ->
+                    backStack.add(SingleCard(cardID))
+                }
+            }
+            entry<Routes.CardSearchResult> {
+                val searchCardViewModel = hiltViewModel<SearchCardViewModel>()
+                SearchCardScreen(viewModel = searchCardViewModel) { cardID ->
+                    val clickedAt: Long = System.currentTimeMillis()
+                    Log.i("card", "$clickedAt: $cardID")
                     backStack.add(SingleCard(cardID))
                 }
             }
