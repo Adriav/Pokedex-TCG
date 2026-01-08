@@ -81,7 +81,9 @@ fun NavigationWrapper() {
             }
             entry<Routes.MyCollection> {
                 val myCollectionViewModel = hiltViewModel<MyCollectionViewModel>()
-                MyCollectionScreen(viewModel = myCollectionViewModel)
+                MyCollectionScreen(viewModel = myCollectionViewModel) { cardID ->
+                    backStack.add(SingleCard(cardID))
+                }
             }
         }
     )
