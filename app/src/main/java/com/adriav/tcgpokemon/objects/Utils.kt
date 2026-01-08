@@ -28,6 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adriav.tcgpokemon.R
 import net.tcgdex.sdk.models.subs.CardWeakRes
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun AppHeader(text: String = "Todas las ...") {
@@ -159,4 +163,13 @@ fun RetreatCostIcons(cost: Int) {
             }
         }
     }
+}
+
+fun Long.toReadableDate(
+    pattern: String = "dd/MM/yyyy"
+) : String {
+    val formatter = DateTimeFormatter
+        .ofPattern(pattern, Locale.getDefault())
+
+    return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).format(formatter)
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
 import com.adriav.tcgpokemon.database.entity.CardEntity
+import com.adriav.tcgpokemon.objects.toReadableDate
 
 @Composable
 fun CollectionCardItem(card: CardEntity, onClick: (CardEntity) -> Unit) {
@@ -37,7 +39,7 @@ fun CollectionCardItem(card: CardEntity, onClick: (CardEntity) -> Unit) {
                     .fillMaxWidth()
                     .weight(1f)
             )
-            Text(text = card.addedAt.toString())
+            Text(text = card.addedAt.toReadableDate(), style = MaterialTheme.typography.bodySmall)
         }
     }
 }
