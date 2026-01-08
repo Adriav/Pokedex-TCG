@@ -16,7 +16,7 @@ import net.tcgdex.sdk.models.CardResume
 
 @Composable
 fun AllCardsScreen() {
-    val tcgdex = TCGdexProvider.tcgdex
+    val tcgdex = TCGdexProvider.provideTCGdex()
     var allCards: Array<CardResume>? by remember { mutableStateOf(null) }
 
     LaunchedEffect(Unit) {

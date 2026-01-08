@@ -13,11 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -26,27 +23,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
+import com.adriav.tcgpokemon.models.SingleSerieViewModel
 import com.adriav.tcgpokemon.objects.CenteredProgressIndicator
-import com.adriav.tcgpokemon.objects.TCGdexProvider
 import com.adriav.tcgpokemon.views.items.SetItemView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import net.tcgdex.sdk.Extension
 import net.tcgdex.sdk.models.Serie
 import net.tcgdex.sdk.models.SetResume
 
 @Composable
-fun SingleSerieScreen(serieID: String, navigateToSet: (String) -> Unit) {
-    val tcgdex = TCGdexProvider.tcgdex
-    var serie by remember { mutableStateOf<Serie?>(null) }
-    var sets by remember { mutableStateOf<List<SetResume?>>(emptyList()) }
+fun SingleSerieScreen(
+    viewModel: SingleSerieViewModel,
+    serieID: String,
+    navigateToSet: (String) -> Unit
+) {
+    val serie: Serie? by viewModel.serie.observeAsState(null)
+    val sets: List<SetResume> by viewModel.sets.observeAsState(emptyList())
+    viewModel.setSerieId(serieID)
 
-    LaunchedEffect(Unit) {
-        serie = withContext(Dispatchers.IO) {
-            tcgdex.fetchSerie(serieID)
-        }
-        sets = serie?.sets!!
-    }
+    viewModel.loadSerie()
 
     if (serie == null) {
         CenteredProgressIndicator()
@@ -54,19 +48,24 @@ fun SingleSerieScreen(serieID: String, navigateToSet: (String) -> Unit) {
         Column(modifier = Modifier.fillMaxWidth()) {
             SerieHeader(serie!!, sets)
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-            LazyColumn(
+            SetsItems(sets = sets, navigateToSet)
+        }
+    }
+}
+
+@Composable
+fun SetsItems(
+    sets: List<SetResume?>,
+    navigateToSet: (String) -> Unit
+) {
+    LazyColumn {
+        items(sets.size) { index ->
+            Box(
                 modifier = Modifier
-                    .padding(bottom = 32.dp)
-            ) {
-                items(sets.size) { index ->
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                navigateToSet(sets[index]!!.id)
-                            }) {
-                        SetItemView(sets[index]!!)
-                    }
-                }
+                    .clickable {
+                        navigateToSet(sets[index]!!.id)
+                    }) {
+                SetItemView(sets[index]!!)
             }
         }
     }

@@ -23,10 +23,10 @@ sealed class Routes: NavKey {
     data class SingleSet(val setID: String): Routes()
 
     @Serializable
-    data object MyCards: Routes()
+    data object MyCollection: Routes()
 
     @Serializable
-    data class CardSearchResult(val query: String): Routes()
+    data object CardSearchResult: Routes()
 
     @Serializable
     data object Error: Routes()

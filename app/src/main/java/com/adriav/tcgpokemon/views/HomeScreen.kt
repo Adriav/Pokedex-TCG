@@ -10,17 +10,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.adriav.tcgpokemon.models.HomeViewModel
 
 @Composable
-fun HomeScreen(navigateToAllSeries: () -> Unit, navigateToAllSets: () -> Unit) {
-    var text by remember { mutableStateOf("") }
+fun HomeScreen(
+    navigateToAllSeries: () -> Unit,
+    navigateToAllSets: () -> Unit,
+    navigateToMyCollection: () -> Unit,
+    navigateToSearchScreen: () -> Unit,
+    viewModel: HomeViewModel
+) {
+    val searchText: String by viewModel.searchText.observeAsState("")
+    val searchEnabled: Boolean by viewModel.searchEnabled.observeAsState(false)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -28,22 +35,26 @@ fun HomeScreen(navigateToAllSeries: () -> Unit, navigateToAllSets: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Barra de búsqueda
-        Text(text = "Buscar una carta", fontSize = 24.sp)
+        Text(text = "Search a card", fontSize = 24.sp)
         TextField(
-            value = text,
-            onValueChange = { text = it })
-        Button(onClick = {}, modifier = Modifier.fillMaxWidth(), enabled = text.isNotEmpty()) {
-            Text(text = "Buscar")
+            value = searchText,
+            onValueChange = { viewModel.onSearchChange(it) },
+            placeholder = { Text(text = "Search name") },
+            singleLine = true,
+            maxLines = 1
+        )
+        Button(onClick = {}, modifier = Modifier.fillMaxWidth(), enabled = searchEnabled) {
+            Text(text = "Search")
         }
         HorizontalDivider(Modifier.padding(top = 8.dp, bottom = 64.dp))
 
         // Visualizar mis cartas
         Button(
-            onClick = {},
+            onClick = { navigateToMyCollection() },
             modifier = Modifier
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
-        ) { Text(text = "Mis cartas", fontSize = 16.sp) }
+        ) { Text(text = "My cards", fontSize = 16.sp) }
 
         // Ver todas las SERIES
         Button(
@@ -51,7 +62,7 @@ fun HomeScreen(navigateToAllSeries: () -> Unit, navigateToAllSets: () -> Unit) {
             modifier = Modifier
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
-        ) { Text(text = "Todas las series", fontSize = 16.sp) }
+        ) { Text(text = "All Series", fontSize = 16.sp) }
 
         // Ver todos los SETS
         Button(
@@ -59,6 +70,14 @@ fun HomeScreen(navigateToAllSeries: () -> Unit, navigateToAllSets: () -> Unit) {
             modifier = Modifier
                 .padding(vertical = 16.dp)
                 .fillMaxWidth()
-        ) { Text(text = "Todos los sets", fontSize = 16.sp) }
+        ) { Text(text = "All Sets", fontSize = 16.sp) }
+
+        // Search API Cards
+        Button(
+            onClick = { navigateToSearchScreen() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "Search Cards", fontSize = 16.sp) }
     }
 }

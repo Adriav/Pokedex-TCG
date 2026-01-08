@@ -13,11 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -26,27 +23,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
+import com.adriav.tcgpokemon.models.SingleSetViewModel
 import com.adriav.tcgpokemon.objects.CenteredProgressIndicator
-import com.adriav.tcgpokemon.objects.TCGdexProvider
 import com.adriav.tcgpokemon.views.items.CardItemView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import net.tcgdex.sdk.Extension
 import net.tcgdex.sdk.models.CardResume
 import net.tcgdex.sdk.models.Set
 
 @Composable
-fun SingleSetScreen(setID: String, navigateToCard: (String) -> Unit) { // "neo2"
-    val tcgdex = TCGdexProvider.tcgdex
-    var set by remember { mutableStateOf<Set?>(null) }
-    var cards by remember { mutableStateOf<List<CardResume>>(emptyList()) }
+fun SingleSetScreen(
+    viewModel: SingleSetViewModel,
+    setID: String,
+    navigateToCard: (String) -> Unit
+) {
+    val set by viewModel.set.observeAsState(null)
+    val cards by viewModel.setCards.observeAsState(null)
 
-    LaunchedEffect(Unit) {
-        set = withContext(Dispatchers.IO) {
-            tcgdex.fetchSet(setID)
-        }
-        cards = set?.cards!!
-    }
+    viewModel.setSetId(setID)
+    viewModel.loadSet()
 
     if (set == null) {
         CenteredProgressIndicator()
@@ -57,14 +51,7 @@ fun SingleSetScreen(setID: String, navigateToCard: (String) -> Unit) { // "neo2"
                 modifier =
                     Modifier.padding(vertical = 8.dp)
             )
-            LazyColumn(modifier = Modifier.padding(bottom = 32.dp)) {
-                items(cards.size) { index ->
-                    Box (modifier = Modifier.padding(vertical = 16.dp)
-                        .clickable{navigateToCard(cards[index].id)}) {
-                        CardItemView(cards[index], index + 1)
-                    }
-                }
-            }
+            CardsItems(cards!!, navigateToCard)
         }
     }
 }
@@ -137,6 +124,20 @@ fun SetHeader(set: Set) {
                 }
             }
 
+        }
+    }
+}
+
+@Composable
+fun CardsItems(cards: List<CardResume>, navigateToCard: (String) -> Unit) {
+    LazyColumn {
+        items(cards.size) { index ->
+            Box(
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .clickable { navigateToCard(cards[index].id) }) {
+                CardItemView(cards[index], index + 1)
+            }
         }
     }
 }
