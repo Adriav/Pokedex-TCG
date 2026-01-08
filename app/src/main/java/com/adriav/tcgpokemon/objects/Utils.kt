@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adriav.tcgpokemon.R
 import net.tcgdex.sdk.models.subs.CardWeakRes
+import java.text.Normalizer
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -167,9 +168,14 @@ fun RetreatCostIcons(cost: Int) {
 
 fun Long.toReadableDate(
     pattern: String = "dd/MM/yyyy"
-) : String {
+): String {
     val formatter = DateTimeFormatter
         .ofPattern(pattern, Locale.getDefault())
 
     return Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).format(formatter)
 }
+
+fun String.normalize(): String =
+    Normalizer
+        .normalize(this, Normalizer.Form.NFD)
+        .replace("\\p{Mn}+".toRegex(), "")

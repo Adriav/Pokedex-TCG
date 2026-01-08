@@ -3,6 +3,7 @@ package com.adriav.tcgpokemon.models
 import androidx.lifecycle.ViewModel
 import com.adriav.tcgpokemon.database.dao.CardDao
 import com.adriav.tcgpokemon.objects.EnergyType
+import com.adriav.tcgpokemon.objects.normalize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -21,8 +22,11 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
     val filteredCollection = combine(collection, selectedEnergy, searchQuery)
     { cards, energyType, query ->
         cards.filter { card ->
-            val matchesEnergy = energyType == null || card.type!!.equals(energyType.apiName, ignoreCase = true)
-            val matchesQuery = query.isBlank()|| card.name.contains(query, ignoreCase = true)
+            val normalizedQuery = query.normalize()
+            val matchesEnergy =
+                energyType == null || card.type!!.equals(energyType.apiName, ignoreCase = true)
+            val matchesQuery = normalizedQuery.isBlank() || card.name.normalize()
+                .contains(normalizedQuery, ignoreCase = true)
 
             matchesEnergy && matchesQuery
         }
@@ -33,7 +37,8 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
     }
 
     fun onSearchQuery(query: String) {
-        _searchQuery.value = query
+        val normalizedQuery = query.normalize()
+        _searchQuery.value = normalizedQuery
     }
 
 }

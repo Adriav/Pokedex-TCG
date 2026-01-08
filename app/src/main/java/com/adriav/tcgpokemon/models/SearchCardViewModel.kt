@@ -2,6 +2,7 @@ package com.adriav.tcgpokemon.models
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adriav.tcgpokemon.objects.normalize
 import com.adriav.tcgpokemon.views.search.SearchCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +43,7 @@ class SearchCardViewModel @Inject constructor(private val tcgdex: TCGdex) : View
             } catch (e: Exception) {
                 e.printStackTrace()
                 _uiState.value = SearchCardUiState.Error(
-                    e.message ?: "Error cargando cartas"
+                    e.message ?: "Error retrieving cards"
                 )
             }
         }
@@ -64,33 +65,18 @@ class SearchCardViewModel @Inject constructor(private val tcgdex: TCGdex) : View
             _uiState.value = SearchCardUiState.Idle
             return
         }
-        _uiState.value = SearchCardUiState.Loading
 
+        _uiState.value = SearchCardUiState.Loading
+        val normalizedQuery = query.normalize()
         val filtered = allCards.filter {card ->
-            card.name.contains(query, ignoreCase = true)
+            card.name.normalize().contains(normalizedQuery, ignoreCase = true)
         }
 
         _uiState.value = SearchCardUiState.Success(filtered)
     }
 
     fun onQueryChange(query: String) {
-        _searchQuery.value = query
-    }
-
-    private suspend fun searchCards(query: String) {
-        _uiState.value = SearchCardUiState.Loading
-
-        try {
-            val result = withContext(Dispatchers.IO) {
-                tcgdex.fetchCards()
-            }
-            result!!.filter { card ->
-                card.name.contains(query, ignoreCase = true)
-            }
-            _uiState.value = SearchCardUiState.Success(result.toList())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            _uiState.value = SearchCardUiState.Error(e.message?:  "Error retrieving cards")
-        }
+        val normalizedQuery = query.normalize()
+        _searchQuery.value = normalizedQuery
     }
 }
