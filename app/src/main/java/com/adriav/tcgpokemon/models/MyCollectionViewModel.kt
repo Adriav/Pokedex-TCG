@@ -21,10 +21,14 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
 
     val filteredCollection = combine(collection, selectedEnergy, searchQuery)
     { cards, energyType, query ->
+        val normalizedQuery = query.normalize()
+
         cards.filter { card ->
-            val normalizedQuery = query.normalize()
-            val matchesEnergy =
-                energyType == null || card.type!!.equals(energyType.apiName, ignoreCase = true)
+            val matchesEnergy = when {
+                energyType == null -> true
+                card.type == null -> false
+                else -> card.type.equals(energyType.apiName, ignoreCase = true)
+            }
             val matchesQuery = normalizedQuery.isBlank() || card.name.normalize()
                 .contains(normalizedQuery, ignoreCase = true)
 

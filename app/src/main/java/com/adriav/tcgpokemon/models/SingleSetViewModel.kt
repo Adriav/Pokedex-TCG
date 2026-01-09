@@ -17,7 +17,6 @@ class SingleSetViewModel @Inject constructor(
     private val tcgdex: TCGdex
 ) : ViewModel() {
     private val _setId = MutableLiveData<String>()
-    val setId = _setId
     private val _set = MutableLiveData<Set>()
     val set = _set
     private val _setCards = MutableLiveData<List<CardResume>>()

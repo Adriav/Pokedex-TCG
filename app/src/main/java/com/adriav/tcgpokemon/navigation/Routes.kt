@@ -27,7 +27,4 @@ sealed class Routes: NavKey {
 
     @Serializable
     data object CardSearchResult: Routes()
-
-    @Serializable
-    data object Error: Routes()
 }

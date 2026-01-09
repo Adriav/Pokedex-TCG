@@ -6,6 +6,7 @@ import com.adriav.tcgpokemon.objects.normalize
 import com.adriav.tcgpokemon.views.search.SearchCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -49,6 +50,7 @@ class SearchCardViewModel @Inject constructor(private val tcgdex: TCGdex) : View
         }
     }
 
+    @OptIn(FlowPreview::class)
     private fun observeSearch() {
         viewModelScope.launch {
             _searchQuery

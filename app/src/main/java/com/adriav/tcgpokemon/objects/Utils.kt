@@ -69,7 +69,7 @@ fun CenteredProgressIndicator() {
     }
 }
 
-@SuppressLint("LocalContextResourcesRead")
+@SuppressLint("LocalContextResourcesRead", "DiscouragedApi")
 @Composable
 fun getTypeColor(colorName: String): Color {
     val context = LocalContext.current
@@ -89,7 +89,7 @@ fun getTypeColor(colorName: String): Color {
 
 sealed class EnergyType(
     val apiName: String,
-    @DrawableRes val icon: Int
+    @param:DrawableRes val icon: Int
 ) {
     object Colorless : EnergyType("Colorless", R.drawable.colorless)
     object Darkness : EnergyType("Darkness", R.drawable.darkness)
@@ -152,10 +152,10 @@ fun WeakResIconRow(weakRes: List<CardWeakRes>) {
 @Composable
 fun RetreatCostIcons(cost: Int) {
     Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-        if (cost <= 1) {
+        if (cost < 1) {
             Text(text = "Free")
         } else {
-            for (i in 1..cost) {
+            repeat(cost) {
                 Image(
                     painter = painterResource(R.drawable.colorless),
                     contentDescription = "Colorless",

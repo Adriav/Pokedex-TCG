@@ -61,47 +61,6 @@ fun HomeScreen(
             HomeButton("My Collection", navigateToMyCollection)
         }
     }
-
-    /*
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Visualizar mis cartas
-        Button(
-            onClick = { navigateToMyCollection() },
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-        ) { Text(text = "My cards", fontSize = 16.sp) }
-
-        // Ver todas las SERIES
-        Button(
-            onClick = { navigateToAllSeries() },
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-        ) { Text(text = "All Series", fontSize = 16.sp) }
-
-        // Ver todos los SETS
-        Button(
-            onClick = { navigateToAllSets() },
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-        ) { Text(text = "All Sets", fontSize = 16.sp) }
-
-        // Search API Cards
-        Button(
-            onClick = { navigateToSearchScreen() },
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth()
-        ) { Text(text = "Search Cards", fontSize = 16.sp) }
-    }
-    */
 }
 
 @Composable
