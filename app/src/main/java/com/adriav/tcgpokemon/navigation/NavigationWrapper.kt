@@ -24,7 +24,6 @@ import com.adriav.tcgpokemon.navigation.Routes.Home
 import com.adriav.tcgpokemon.navigation.Routes.SingleCard
 import com.adriav.tcgpokemon.navigation.Routes.SingleSerie
 import com.adriav.tcgpokemon.navigation.Routes.SingleSet
-import com.adriav.tcgpokemon.objects.PokemonEnergy
 import com.adriav.tcgpokemon.views.HomeScreen
 import com.adriav.tcgpokemon.views.MyCollectionScreen
 import com.adriav.tcgpokemon.views.allview.AllSeriesScreen
@@ -35,13 +34,7 @@ import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
 
 @Composable
-fun NavigationWrapper(
-    isDarkMode: Boolean,
-    paddingValues: PaddingValues,
-    selectedEnergy: PokemonEnergy,
-    onToggleTheme: () -> Unit,
-    onEnergySelect: (PokemonEnergy) -> Unit
-) {
+fun NavigationWrapper(isDarkMode: Boolean, paddingValues: PaddingValues, onToggleTheme: () -> Unit) {
     val backStack = rememberNavBackStack(Home)
 
     NavDisplay(
@@ -59,9 +52,7 @@ fun NavigationWrapper(
                     navigateToMyCollection = { backStack.add(Routes.MyCollection) },
                     navigateToSearchScreen = { backStack.add(Routes.CardSearchResult) },
                     isDarkMode = isDarkMode,
-                    onToggleTheme = onToggleTheme,
-                    onEnergySelect = onEnergySelect,
-                    selectedEnergy = selectedEnergy
+                    onToggleTheme = onToggleTheme
                 )
             }
             entry<AllSeries> {

@@ -1,20 +1,15 @@
 package com.adriav.tcgpokemon.views
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -24,10 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.adriav.tcgpokemon.R
-import com.adriav.tcgpokemon.objects.PokemonEnergy
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,14 +29,12 @@ fun HomeScreen(
     navigateToMyCollection: () -> Unit,
     navigateToSearchScreen: () -> Unit,
     onToggleTheme: () -> Unit,
-    onEnergySelect: (PokemonEnergy) -> Unit,
-    isDarkMode: Boolean,
-    selectedEnergy: PokemonEnergy
+    isDarkMode: Boolean
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Pokemon TCG Dex") },
+                title = {Text(text = "Pokemon TCG Dex")},
                 actions = {
                     IconButton(onClick = onToggleTheme) {
                         Icon(
@@ -65,15 +55,53 @@ fun HomeScreen(
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            EnergySelector(selectedEnergy) { energy ->
-                onEnergySelect(energy)
-            }
             HomeButton("All Series", navigateToAllSeries)
             HomeButton("All Sets", navigateToAllSets)
             HomeButton("Search Cards", navigateToSearchScreen)
             HomeButton("My Collection", navigateToMyCollection)
         }
     }
+
+    /*
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp, vertical = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Visualizar mis cartas
+        Button(
+            onClick = { navigateToMyCollection() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "My cards", fontSize = 16.sp) }
+
+        // Ver todas las SERIES
+        Button(
+            onClick = { navigateToAllSeries() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "All Series", fontSize = 16.sp) }
+
+        // Ver todos los SETS
+        Button(
+            onClick = { navigateToAllSets() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "All Sets", fontSize = 16.sp) }
+
+        // Search API Cards
+        Button(
+            onClick = { navigateToSearchScreen() },
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .fillMaxWidth()
+        ) { Text(text = "Search Cards", fontSize = 16.sp) }
+    }
+    */
 }
 
 @Composable
@@ -84,67 +112,5 @@ fun HomeButton(text: String, onClick: () -> Unit) {
         shape = RectangleShape
     ) {
         Text(text, style = MaterialTheme.typography.titleMedium)
-    }
-}
-
-@Composable
-fun EnergySelector(
-    selectedEnergy: PokemonEnergy,
-    onSelect: (PokemonEnergy) -> Unit
-) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier.padding(vertical = 8.dp)
-    ) {
-        items(PokemonEnergy.entries.toTypedArray()) { energy ->
-            EnergyFilterChip(
-                energy = energy,
-                selected = energy == selectedEnergy,
-                onClick = {
-                    onSelect(energy)
-                }
-            )
-        }
-    }
-}
-
-
-@Composable
-fun EnergyFilterChip(
-    energy: PokemonEnergy,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    FilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = {
-            Text(energy.name)
-        },
-        leadingIcon = {
-            Image(
-                painter = painterResource(
-                    id = energyToDrawable(energy)
-                ),
-                contentDescription = energy.name,
-                modifier = Modifier.size(20.dp)
-            )
-        }
-    )
-}
-
-fun energyToDrawable(energy: PokemonEnergy): Int {
-    return when (energy) {
-        PokemonEnergy.COLORLESS -> R.drawable.colorless
-        PokemonEnergy.FIRE -> R.drawable.fire
-        PokemonEnergy.WATER -> R.drawable.water
-        PokemonEnergy.GRASS -> R.drawable.grass
-        PokemonEnergy.ELECTRIC -> R.drawable.lightning
-        PokemonEnergy.PSYCHIC -> R.drawable.psychic
-        PokemonEnergy.FIGHTING -> R.drawable.fighting
-        PokemonEnergy.DARKNESS -> R.drawable.darkness
-        PokemonEnergy.METAL -> R.drawable.metal
-        PokemonEnergy.FAIRY -> R.drawable.fairy
-        PokemonEnergy.DRAGON -> R.drawable.dragon
     }
 }

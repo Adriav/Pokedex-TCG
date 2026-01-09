@@ -179,18 +179,3 @@ fun String.normalize(): String =
     Normalizer
         .normalize(this, Normalizer.Form.NFD)
         .replace("\\p{Mn}+".toRegex(), "")
-
-
-enum class PokemonEnergy {
-    COLORLESS,
-    FIRE,
-    WATER,
-    GRASS,
-    ELECTRIC,
-    PSYCHIC,
-    FIGHTING,
-    DARKNESS,
-    METAL,
-    FAIRY,
-    DRAGON
-}
