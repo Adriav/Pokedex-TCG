@@ -149,7 +149,8 @@ fun EnergyFilterRow(selectedEnergy: EnergyType?, onEnergySelected: (EnergyType?)
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         FilterChip(
             selected = selectedEnergy == null,

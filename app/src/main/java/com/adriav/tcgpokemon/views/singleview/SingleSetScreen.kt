@@ -72,42 +72,42 @@ fun SetHeader(set: Set) {
                 .padding(all = 16.dp),
             contentScale = ContentScale.Fit,
             placeholder = painterResource(R.drawable.loading_progress_icon),
-            error = painterResource(R.drawable.verror_code_vector_icon)
+            error = painterResource(R.drawable.series_placeholder)
         )
     }
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
             Row {
-                Text(text = "Oficial:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text(text = cardCount.official.toString(), fontWeight = FontWeight.Bold)
+                Text(text = "Official: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = cardCount.official.toString(), fontSize = 20.sp)
             }
 
             Row {
-                Text(text = "Normal:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text(text = cardCount.normal.toString(), fontWeight = FontWeight.Bold)
+                Text(text = "Normal: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = cardCount.normal.toString(), fontSize = 20.sp)
             }
 
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             if (cardCount.reverse > 0) {
                 Row {
-                    Text(text = "Reverse:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text(text = cardCount.reverse.toString(), fontWeight = FontWeight.Bold)
+                    Text(text = "Reverse: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text(text = cardCount.reverse.toString(), fontSize = 20.sp)
                 }
             }
 
             if (cardCount.holo > 0) {
                 Row {
-                    Text(text = "Holo:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text(text = cardCount.holo.toString(), fontWeight = FontWeight.Bold)
+                    Text(text = "Holo: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text(text = cardCount.holo.toString(), fontSize = 20.sp)
                 }
             }
 
@@ -115,11 +115,11 @@ fun SetHeader(set: Set) {
                 if (it > 0) {
                     Row {
                         Text(
-                            text = "First Edition:",
+                            text = "First Edition: ",
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
-                        Text(text = cardCount.firstEd.toString(), fontWeight = FontWeight.Bold)
+                        Text(text = cardCount.firstEd.toString(), fontWeight = FontWeight.Bold, fontSize = 20.sp)
                     }
                 }
             }

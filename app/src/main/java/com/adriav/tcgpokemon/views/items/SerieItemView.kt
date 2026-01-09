@@ -38,10 +38,10 @@ fun SerieItemView(serieResume: SerieResume) {
                     .width(100.dp)
                     .height(100.dp),
                 placeholder = painterResource(R.drawable.loading_progress_icon),
-                error = painterResource(R.drawable.verror_code_vector_icon)
+                error = painterResource(R.drawable.series_placeholder)
             )
             Column(modifier = Modifier.padding(start = 16.dp).fillMaxSize()) {
-                Text(text = "Nombre: ${serieResume.name}")
+                Text(text = "Name: ${serieResume.name}")
                 Text(text = "ID: ${serieResume.id}")
                 HorizontalDivider(modifier = Modifier.padding(top = 8.dp))
             }

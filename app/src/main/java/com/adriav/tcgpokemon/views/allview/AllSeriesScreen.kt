@@ -34,7 +34,7 @@ fun SeriesItems(
     navigateToSerie: (String) -> Unit
 ) {
     Column {
-        AppHeader("Todas las Series")
+        AppHeader("All Series")
         LazyColumn {
             items(cardSeries!!.size) { index ->
                 Box(

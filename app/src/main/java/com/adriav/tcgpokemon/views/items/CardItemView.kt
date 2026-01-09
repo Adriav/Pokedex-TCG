@@ -60,7 +60,7 @@ fun CardItemView(cardResume: CardResume, index: Int? = null) {
                         .padding(bottom = 8.dp),
                     contentScale = ContentScale.Fit,
                     placeholder = painterResource(R.drawable.loading_progress_icon),
-                    error = painterResource(R.drawable.verror_code_vector_icon)
+                    error = painterResource(R.drawable.card_back)
                 )
             }
         }

@@ -38,12 +38,12 @@ fun SetItemView(setResume: SetResume) {
                     .height(100.dp),
                 contentScale = ContentScale.Fit,
                 placeholder = painterResource(R.drawable.loading_progress_icon),
-                error = painterResource(R.drawable.verror_code_vector_icon)
+                error = painterResource(R.drawable.series_placeholder)
             )
             Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(text = "Nombre: ${setResume.name}")
+                Text(text = "Name: ${setResume.name}")
                 Text(text = "Total: ${setResume.cardCount.total}")
-                Text(text = "Oficial: ${setResume.cardCount.official}")
+                Text(text = "Official: ${setResume.cardCount.official}")
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
             }
         }

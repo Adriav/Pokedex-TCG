@@ -34,7 +34,7 @@ fun CardSearchItemView(cardResume: CardResume) {
                 model = cardImage,
                 contentDescription = cardResume.name,
                 placeholder = painterResource(R.drawable.loading_progress_icon),
-                error = painterResource(R.drawable.verror_code_vector_icon),
+                error = painterResource(R.drawable.card_back),
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)

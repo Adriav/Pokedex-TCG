@@ -48,7 +48,7 @@ fun SingleCardScreen(
     viewModel: SingleCardViewModel,
     cardID: String,
     navigateToCardSet: (String) -> Unit
-) { // ID: swsh3-136
+) {
     // Scroll Helper
     val scrollState = rememberScrollState()
     // Card Object
@@ -286,17 +286,17 @@ fun BattleTraitsValues(
         if (cardWeaknesses != null) {
             WeakResIconRow(cardWeaknesses)
         } else {
-            Text(text = "n/a")
+            Text(text = "None")
         }
         if (cardResistances != null) {
             WeakResIconRow(cardResistances)
         } else {
-            Text(text = "n/a")
+            Text(text = "None")
         }
         if (cardRetreat != null) {
             RetreatCostIcons(cardRetreat)
         } else {
-            Text(text = "n/a")
+            Text(text = "Free")
         }
     }
 }
@@ -313,7 +313,7 @@ private fun DisplayCardImage(imageURL: String, cardName: String) {
             .height(450.dp),
         contentScale = ContentScale.Fit,
         placeholder = painterResource(R.drawable.loading_progress_icon),
-        error = painterResource(R.drawable.verror_code_vector_icon)
+        error = painterResource(R.drawable.card_back)
     )
 }
 

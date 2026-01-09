@@ -86,7 +86,7 @@ fun SerieHeader(serie: Serie, sets: List<SetResume?>) {
                 .padding(all = 16.dp),
             contentScale = ContentScale.Fit,
             placeholder = painterResource(R.drawable.loading_progress_icon),
-            error = painterResource(R.drawable.verror_code_vector_icon)
+            error = painterResource(R.drawable.series_placeholder)
         )
     }
     Row(
@@ -94,7 +94,7 @@ fun SerieHeader(serie: Serie, sets: List<SetResume?>) {
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         Row {
-            Text(text = "Nombre: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = "Name: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
             Text(text = serie.name, fontSize = 20.sp)
         }
         Row {
