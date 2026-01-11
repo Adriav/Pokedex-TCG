@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -19,14 +20,23 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import com.adriav.tcgpokemon.models.MyCollectionViewModel
 import com.adriav.tcgpokemon.objects.EnergyIcon
 import com.adriav.tcgpokemon.objects.EnergyType
+import com.adriav.tcgpokemon.objects.normalize
 import com.adriav.tcgpokemon.views.items.CollectionCardItem
 
 @Composable
@@ -51,10 +62,19 @@ fun MyCollectionScreen(
         .collectAsState()
 
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val selectedSet by viewModel.selectedSet.collectAsState()
+    val availableSets = remember(cards) {
+        cards.map { it.set to it.set }.distinct().map { (set) -> set }
+    }
 
 
     Column {
         CollectionSearchBar(query = searchQuery, onQueryChange = viewModel::onSearchQuery)
+        SetFilterDropdown(
+            sets = availableSets,
+            selectedSet = selectedSet,
+            onSetSelected = viewModel::selectSet
+        )
         EnergyFilterRow(selectedEnergy, viewModel::selectEnergy)
         Spacer(modifier = Modifier.height(8.dp))
         if (cards.isEmpty()) {
@@ -92,7 +112,9 @@ fun CollectionSearchBar(query: String, onQueryChange: (String) -> Unit) {
         onSearch = {},
         active = false,
         onActiveChange = {},
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
         placeholder = { Text("Search") },
         leadingIcon = { Icon(imageVector = Icons.Default.Search, contentDescription = "Search") }
     ) { }
@@ -167,6 +189,91 @@ fun EnergyFilterRow(selectedEnergy: EnergyType?, onEnergySelected: (EnergyType?)
                 },
                 label = { Text(text = energy.apiName) }
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SetFilterDropdown(
+    sets: List<String>,
+    selectedSet: String?,
+    onSetSelected: (String?) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    var inputText by remember { mutableStateOf("") }
+    var isTyping by remember { mutableStateOf(false) }
+
+    LaunchedEffect(selectedSet) {
+        if (!isTyping) {
+            inputText = sets.firstOrNull { it == selectedSet } ?: ""
+        }
+    }
+
+    val filteredSets = remember(inputText, sets) {
+        sets.filter {
+            it.normalize().contains(inputText.normalize(), ignoreCase = true)
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded }
+    ) {
+        OutlinedTextField(
+            value = inputText,
+            // value = sets.firstOrNull { it == selectedSet } ?: "All Sets",
+            onValueChange = {
+                isTyping = true
+                inputText = it
+                expanded = true
+
+                if (it.isBlank()) onSetSelected(null)
+            },
+            label = { Text("Sets") },
+            placeholder = { Text("All Sets") },
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            singleLine = true,
+            modifier =
+                Modifier
+                    .menuAnchor(
+                        type = MenuAnchorType.PrimaryNotEditable
+                    )
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = {
+                isTyping = false
+                expanded = false
+            },
+            modifier = Modifier.heightIn(max = 200.dp),
+            scrollState = rememberScrollState()
+        ) {
+            // Opción para mostrar todos los sets
+            DropdownMenuItem(
+                text = { Text("All Sets") },
+                onClick = {
+                    onSetSelected(null)
+                    inputText = ""
+                    expanded = false
+                    isTyping = false
+                }
+            )
+            filteredSets.forEach { set ->
+                DropdownMenuItem(
+                    text = {Text(set)},
+                    onClick = {
+                        onSetSelected(set)
+                        inputText = set
+                        expanded = false
+                        isTyping = false
+                    }
+                )
+            }
         }
     }
 }

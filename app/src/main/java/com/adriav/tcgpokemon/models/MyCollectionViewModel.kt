@@ -18,9 +18,11 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery
+    private val _selectedSet = MutableStateFlow<String?>(null)
+    val selectedSet = _selectedSet
 
-    val filteredCollection = combine(collection, selectedEnergy, searchQuery)
-    { cards, energyType, query ->
+    val filteredCollection = combine(collection, selectedEnergy, searchQuery, selectedSet)
+    { cards, energyType, query, set ->
         val normalizedQuery = query.normalize()
 
         cards.filter { card ->
@@ -32,7 +34,9 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
             val matchesQuery = normalizedQuery.isBlank() || card.name.normalize()
                 .contains(normalizedQuery, ignoreCase = true)
 
-            matchesEnergy && matchesQuery
+            val matchesSet = set == null || card.set == set
+
+            matchesEnergy && matchesQuery && matchesSet
         }
     }
 
@@ -43,6 +47,10 @@ class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : View
     fun onSearchQuery(query: String) {
         val normalizedQuery = query.normalize()
         _searchQuery.value = normalizedQuery
+    }
+
+    fun selectSet(setId: String?) {
+        _selectedSet.value = setId
     }
 
 }
