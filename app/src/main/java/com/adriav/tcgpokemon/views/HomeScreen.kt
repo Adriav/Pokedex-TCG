@@ -111,12 +111,12 @@ fun HomeTopAppBar(isDarkMode: Boolean, onToggleTheme: () -> Unit) {
             .padding(horizontal = 8.dp),
         title = {
             Text(
-                text = "Pokemon TCG Dex",
+                text = "Pokemon TCG Collection",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                fontSize = 30.sp
+                fontSize = 28.sp
             )
         },
         actions = {

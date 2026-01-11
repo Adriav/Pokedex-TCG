@@ -58,11 +58,16 @@ fun SingleSetScreen(
 
 @Composable
 fun SetHeader(set: Set) {
-    val cardCount = set.cardCount
+    SetImage(set)
+    SetInfo(set)
+}
+
+@Composable
+fun SetImage(set: Set) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
+            .height(150.dp)
     ) {
         AsyncImage(
             model = set.getLogoUrl(Extension.WEBP),
@@ -75,6 +80,11 @@ fun SetHeader(set: Set) {
             error = painterResource(R.drawable.series_placeholder)
         )
     }
+}
+
+@Composable
+fun SetInfo(set: Set) {
+    val cardCount = set.cardCount
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),

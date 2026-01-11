@@ -138,7 +138,7 @@ fun CollectionButton(types: List<String>?, isCollected: Boolean, viewModel: Sing
         ) {
             Text(
                 text = "Remove from collection",
-                fontSize = 28.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
         }
