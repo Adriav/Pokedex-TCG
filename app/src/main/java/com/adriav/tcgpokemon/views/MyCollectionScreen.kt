@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CircularProgressIndicator
@@ -40,6 +42,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -204,6 +208,8 @@ fun SetFilterDropdown(
     var inputText by remember { mutableStateOf("") }
     var isTyping by remember { mutableStateOf(false) }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     LaunchedEffect(selectedSet) {
         if (!isTyping) {
             inputText = sets.firstOrNull { it == selectedSet } ?: ""
@@ -228,14 +234,24 @@ fun SetFilterDropdown(
                 inputText = it
                 expanded = true
 
-                if (it.isBlank()) onSetSelected(null)
+                if (it.isBlank()) {
+                    onSetSelected(null)
+                }
             },
             label = { Text("Sets") },
             placeholder = { Text("All Sets") },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    expanded = false
+                    isTyping = false
+                    keyboardController?.hide()
+                }
+            ),
             trailingIcon = {
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
-            singleLine = true,
             modifier =
                 Modifier
                     .menuAnchor(
@@ -261,6 +277,7 @@ fun SetFilterDropdown(
                     inputText = ""
                     expanded = false
                     isTyping = false
+                    keyboardController?.hide()
                 }
             )
             filteredSets.forEach { set ->
@@ -271,6 +288,7 @@ fun SetFilterDropdown(
                         inputText = set
                         expanded = false
                         isTyping = false
+                        keyboardController?.hide()
                     }
                 )
             }
