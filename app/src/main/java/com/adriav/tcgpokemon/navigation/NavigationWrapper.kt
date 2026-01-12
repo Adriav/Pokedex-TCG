@@ -1,6 +1,10 @@
 package com.adriav.tcgpokemon.navigation
 
 import android.util.Log
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,10 +36,6 @@ import com.adriav.tcgpokemon.views.search.SearchCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSetScreen
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 
 @Composable
 fun NavigationWrapper(isDarkMode: Boolean, paddingValues: PaddingValues, onToggleTheme: () -> Unit) {
@@ -48,25 +48,20 @@ fun NavigationWrapper(isDarkMode: Boolean, paddingValues: PaddingValues, onToggl
             .padding(horizontal = 8.dp),
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
-        // Use transitionSpec instead of enter/exitTransition
         transitionSpec = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(300)
-            ) togetherWith slideOutHorizontally(
-                targetOffsetX = { fullWidth -> -fullWidth }, // Logic: old screen moves left
-                animationSpec = tween(300)
-            )
+            // Slide in from right when navigating forward
+            slideInHorizontally(initialOffsetX = { it }, animationSpec = tween(300)) togetherWith
+                    slideOutHorizontally(targetOffsetX = { -it }, animationSpec = tween(300))
         },
-        // Use popTransitionSpec for back navigation
         popTransitionSpec = {
-            slideInHorizontally(
-                initialOffsetX = { fullWidth -> -fullWidth },
-                animationSpec = tween(300)
-            ) togetherWith slideOutHorizontally(
-                targetOffsetX = { fullWidth -> fullWidth },
-                animationSpec = tween(300)
-            )
+            // Slide in from left when navigating back
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(300)) togetherWith
+                    slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
+        },
+        predictivePopTransitionSpec = {
+            // Slide in from left when navigating back
+            slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(300)) togetherWith
+                    slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
         },
         entryProvider = entryProvider {
             entry<Home> {
