@@ -1,6 +1,5 @@
 package com.adriav.tcgpokemon.views.singleview
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -311,7 +310,6 @@ fun BattleTraitsValues(
 
 @Composable
 private fun DisplayCardImage(imageURL: String, cardName: String) {
-    Log.i("image", "imagen: $imageURL")
     AsyncImage(
         model = imageURL,
         contentDescription = cardName,
