@@ -87,20 +87,29 @@ fun SetImage(set: Set) {
 fun SetInfo(set: Set) {
     val cardCount = set.cardCount
     Column(modifier = Modifier.fillMaxWidth()) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-            Box(contentAlignment = Alignment.Center) {
-                Row() {
-                    Text(text = "Set: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text(text = set.name ?: "", fontSize = 20.sp)
-                }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp), contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(text = "Set: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = set.name ?: "", fontSize = 20.sp)
             }
-            Box(contentAlignment = Alignment.Center) {
-                Row() {
-                    Text(text = "Serie: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp), contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(text = "Serie: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Box {
                     Text(text = set.serie.name, fontSize = 20.sp)
                 }
             }
         }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly

@@ -14,7 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
 import net.tcgdex.sdk.Extension
@@ -40,9 +42,10 @@ fun SerieItemView(serieResume: SerieResume) {
                 placeholder = painterResource(R.drawable.loading_progress_icon),
                 error = painterResource(R.drawable.series_placeholder)
             )
-            Column(modifier = Modifier.padding(start = 16.dp).fillMaxSize()) {
-                Text(text = "Name: ${serieResume.name}")
-                Text(text = "ID: ${serieResume.id}")
+            Column(modifier = Modifier
+                .padding(start = 16.dp)
+                .fillMaxSize()) {
+                Text(text = serieResume.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 HorizontalDivider(modifier = Modifier.padding(top = 8.dp))
             }
         }

@@ -29,7 +29,10 @@ class MyCollectionViewModel @Inject constructor(dao: CardDao) : ViewModel() {
             val matchesFilter = when (filter) {
                 null -> true
                 is CardFilter.Energy ->
-                    card.type?.equals(filter.energyType.apiName, ignoreCase = true)
+                    card.type?.equals(
+                        filter.energyType.apiName,
+                        ignoreCase = true
+                    ) == true && card.type != null
 
                 is CardFilter.Category ->
                     card.category.equals(filter.category.name, ignoreCase = true)
@@ -41,7 +44,7 @@ class MyCollectionViewModel @Inject constructor(dao: CardDao) : ViewModel() {
             val matchesSet = set == null || card.set == set
 
             // matchesEnergy && matchesQuery && matchesSet
-            matchesFilter ?: true && matchesQuery && matchesSet
+            matchesFilter && matchesQuery && matchesSet
         }
     }
 
