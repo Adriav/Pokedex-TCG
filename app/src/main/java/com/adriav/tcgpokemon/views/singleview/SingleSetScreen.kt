@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -34,7 +36,8 @@ import net.tcgdex.sdk.models.Set
 fun SingleSetScreen(
     viewModel: SingleSetViewModel,
     setID: String,
-    navigateToCard: (String) -> Unit
+    navigateToCard: (String) -> Unit,
+    navigateToSerie: (String) -> Unit
 ) {
     val set by viewModel.set.observeAsState(null)
     val cards by viewModel.setCards.observeAsState(null)
@@ -46,7 +49,7 @@ fun SingleSetScreen(
         CenteredProgressIndicator()
     } else {
         Column {
-            SetHeader(set!!)
+            SetHeader(set!!, navigateToSerie)
             HorizontalDivider(
                 modifier =
                     Modifier.padding(vertical = 8.dp)
@@ -57,9 +60,9 @@ fun SingleSetScreen(
 }
 
 @Composable
-fun SetHeader(set: Set) {
+fun SetHeader(set: Set, navigateToSerie: (String) -> Unit) {
     SetImage(set)
-    SetInfo(set)
+    SetInfo(set, navigateToSerie)
 }
 
 @Composable
@@ -83,14 +86,40 @@ fun SetImage(set: Set) {
 }
 
 @Composable
-fun SetInfo(set: Set) {
+fun SetInfo(set: Set, navigateToSerie: (String) -> Unit) {
     val cardCount = set.cardCount
     Column(modifier = Modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp), contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(text = "Name: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = set.name ?: "", fontSize = 20.sp)
+            }
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp), contentAlignment = Alignment.Center
+        ) {
+            Row {
+                Text(text = "Serie: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Box(modifier = Modifier.clickable { navigateToSerie(set.serie.id) }) {
+                    Text(
+                        text = set.serie.name,
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+        }
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-
             Row {
                 Text(text = "Official: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Text(text = cardCount.official.toString(), fontSize = 20.sp)
@@ -129,7 +158,11 @@ fun SetInfo(set: Set) {
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp
                         )
-                        Text(text = cardCount.firstEd.toString(), fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text(
+                            text = cardCount.firstEd.toString(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 20.sp
+                        )
                     }
                 }
             }

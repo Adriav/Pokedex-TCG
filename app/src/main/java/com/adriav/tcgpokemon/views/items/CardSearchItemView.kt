@@ -16,8 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
-import net.tcgdex.sdk.Extension
-import net.tcgdex.sdk.Quality
+import com.adriav.tcgpokemon.objects.getCardResumeImageURL
 import net.tcgdex.sdk.models.CardResume
 
 @Composable
@@ -29,13 +28,10 @@ fun CardSearchItemView(cardResume: CardResume) {
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
-        val cardImage =
-            cardResume.getImageUrl(Quality.LOW, Extension.WEBP)
-                .replace("LOW", "low")
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = cardResume.name, modifier = Modifier.padding(horizontal = 8.dp))
             AsyncImage(
-                model = cardImage,
+                model = getCardResumeImageURL(cardResume),
                 contentDescription = cardResume.name,
                 placeholder = painterResource(R.drawable.loading_progress_icon),
                 error = painterResource(R.drawable.card_back),

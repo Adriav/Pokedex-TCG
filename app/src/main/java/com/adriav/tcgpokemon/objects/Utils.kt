@@ -27,6 +27,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.adriav.tcgpokemon.R
+import net.tcgdex.sdk.Extension
+import net.tcgdex.sdk.Quality
+import net.tcgdex.sdk.models.CardResume
 import net.tcgdex.sdk.models.subs.CardWeakRes
 import java.text.Normalizer
 import java.time.Instant
@@ -193,3 +196,10 @@ fun String.normalize(): String =
     Normalizer
         .normalize(this, Normalizer.Form.NFD)
         .replace("\\p{Mn}+".toRegex(), "")
+
+
+fun getCardResumeImageURL(cardResume: CardResume): String {
+    return if (cardResume.image != null) cardResume.getImageUrl(Quality.LOW, Extension.WEBP)
+        .replace("LOW", "low")
+    else CardImageMapper.map(cardResume.id)
+}

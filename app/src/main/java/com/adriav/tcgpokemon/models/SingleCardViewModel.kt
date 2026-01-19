@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adriav.tcgpokemon.database.dao.CardDao
 import com.adriav.tcgpokemon.database.entity.CardEntity
+import com.adriav.tcgpokemon.objects.CardImageMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,6 +64,8 @@ class SingleCardViewModel @Inject constructor(
     val trainerType = _trainerType
     private val _energyType = MutableLiveData<String?>()
     val energyType = _energyType
+    private val _imageURL = MutableLiveData<String>()
+    val imageURL = _imageURL
 
     fun setCardId(id: String) {
         _cardID.value = id
@@ -91,6 +94,12 @@ class SingleCardViewModel @Inject constructor(
                 _cardEffect.postValue(response.effect)
                 _trainerType.postValue(response.trainerType)
                 _energyType.postValue(response.energyType)
+                if (response.image == null) {
+                    _imageURL.postValue(CardImageMapper.map(_cardID.value))
+                } else {
+                    _imageURL.postValue(response.getImageUrl(Quality.HIGH, Extension.WEBP))
+                }
+
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -117,7 +126,7 @@ class SingleCardViewModel @Inject constructor(
                 rarity = _cardRarity.value,
                 type = _cardTypes.value?.get(0),
                 set = _cardSet.value,
-                imageUrl = card.value!!.getImageUrl(Quality.HIGH, Extension.WEBP)
+                imageUrl = _imageURL.value
             )
             dao.insertCard(cardEntity)
             _isCollected.postValue(true)

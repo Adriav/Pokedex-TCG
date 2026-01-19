@@ -36,7 +36,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,7 +57,8 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             HomeTopAppBar(isDarkMode, onToggleTheme)
-        }
+        },
+        bottomBar = { HomeBottomBar() }
     ) { paddingValues ->
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             LazyVerticalGrid(
@@ -110,14 +113,23 @@ fun HomeTopAppBar(isDarkMode: Boolean, onToggleTheme: () -> Unit) {
         modifier = Modifier
             .padding(horizontal = 8.dp),
         title = {
-            Text(
-                text = "Pokemon TCG Collection",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center,
-                fontSize = 28.sp
-            )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Pokemon TCG Dex",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 28.sp
+                )
+                Text(
+                    text = "version: v1.0",
+                    fontSize = 14.sp,
+                    color = Color(0xFF8E8B8B),
+                    fontStyle = FontStyle.Italic
+                )
+
+            }
         },
         actions = {
             IconButton(onClick = onToggleTheme) {
@@ -174,6 +186,33 @@ fun HomeCardItem(
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 20.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeBottomBar() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = "Adriav© - 2026",
+                fontSize = 14.sp,
+                color = Color(0xFF8E8B8B),
+                fontStyle = FontStyle.Italic
+            )
+            Text(
+                text = "Made possible thanks to tcgdex.dev",
+                fontSize = 14.sp,
+                color = Color(0xFF8E8B8B),
+                fontStyle = FontStyle.Italic
             )
         }
     }

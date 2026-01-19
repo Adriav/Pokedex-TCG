@@ -62,6 +62,8 @@ fun NavigationWrapper(isDarkMode: Boolean, paddingValues: PaddingValues, onToggl
             slideInHorizontally(initialOffsetX = { -it }, animationSpec = tween(300)) togetherWith
                     slideOutHorizontally(targetOffsetX = { it }, animationSpec = tween(300))
         },
+
+        // Entries and Screens
         entryProvider = entryProvider {
             entry<Home> {
                 HomeScreen(
@@ -99,9 +101,12 @@ fun NavigationWrapper(isDarkMode: Boolean, paddingValues: PaddingValues, onToggl
                 val singleSetViewModel = hiltViewModel<SingleSetViewModel>()
                 SingleSetScreen(
                     viewModel = singleSetViewModel,
-                    setID = args.setID
-                ) { cardID ->
-                    backStack.add(SingleCard(cardID))
+                    setID = args.setID,
+                    navigateToCard = { cardID ->
+                        backStack.add(SingleCard(cardID))
+                    }
+                ) { serieID ->
+                    backStack.add(SingleSerie(serieID))
                 }
             }
             entry<SingleCard> { args ->

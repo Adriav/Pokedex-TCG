@@ -38,8 +38,6 @@ import com.adriav.tcgpokemon.objects.EnergyIconRow
 import com.adriav.tcgpokemon.objects.RetreatCostIcons
 import com.adriav.tcgpokemon.objects.WeakResIconRow
 import com.adriav.tcgpokemon.objects.getTypeColor
-import net.tcgdex.sdk.Extension
-import net.tcgdex.sdk.Quality
 import net.tcgdex.sdk.models.subs.CardAbility
 import net.tcgdex.sdk.models.subs.CardAttack
 import net.tcgdex.sdk.models.subs.CardWeakRes
@@ -72,6 +70,7 @@ fun SingleCardScreen(
     val cardEffect by viewModel.cardEffect.observeAsState(null)
     val cardTrainerType by viewModel.trainerType.observeAsState(null)
     val cardEnergyType by viewModel.energyType.observeAsState(null)
+    val imageURL by viewModel.imageURL.observeAsState("")
     // Is Collected
     val isCollected by viewModel.isCollected.observeAsState(false)
     viewModel.getIsCollected()
@@ -84,7 +83,6 @@ fun SingleCardScreen(
     if (card == null) {
         CenteredProgressIndicator()
     } else {
-        val imageURL = card!!.getImageUrl(Quality.HIGH, Extension.WEBP)
         Column(Modifier.verticalScroll(scrollState, enabled = true, reverseScrolling = false)) {
             AppHeader(cardName)
             DisplayCardImage(imageURL, cardName)

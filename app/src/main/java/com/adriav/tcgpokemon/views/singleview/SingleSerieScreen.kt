@@ -98,10 +98,6 @@ fun SerieHeader(serie: Serie, sets: List<SetResume?>) {
             Text(text = serie.name, fontSize = 20.sp)
         }
         Row {
-            Text(text = "ID: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-            Text(text = serie.id, fontSize = 20.sp)
-        }
-        Row {
             Text(text = "Sets: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
             Text(text = sets.size.toString(), fontSize = 20.sp)
         }

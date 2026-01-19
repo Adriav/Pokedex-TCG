@@ -23,8 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
-import net.tcgdex.sdk.Extension
-import net.tcgdex.sdk.Quality
+import com.adriav.tcgpokemon.objects.getCardResumeImageURL
 import net.tcgdex.sdk.models.CardResume
 
 @Composable
@@ -64,11 +63,8 @@ fun CardItemView(cardResume: CardResume, index: Int? = null) {
                         )
                     }
                 }
-                val cardImage =
-                    cardResume.getImageUrl(Quality.LOW, Extension.WEBP)
-                        .replace("LOW", "low")
                 AsyncImage(
-                    model = cardImage,
+                    model = getCardResumeImageURL(cardResume),
                     contentDescription = cardResume.id,
                     modifier = Modifier
                         .width(300.dp)
