@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970841386995",
+    "project_id": "pokedex-tcg-a4e45",
+    "storage_bucket": "pokedex-tcg-a4e45.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970841386995:android:9b941c1874ea5978b52c86",
+        "android_client_info": {
+          "package_name": "com.adriav.pokedextcg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8KUNr1U8efxF6Ar51cX6m1S48eTf3v6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
