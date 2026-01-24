@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.adriav.tcgpokemon"
+        applicationId = "com.adriav.pokedextcg"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
@@ -24,12 +24,21 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
             isMinifyEnabled = false
+            isDebuggable = true
+        }
+
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {

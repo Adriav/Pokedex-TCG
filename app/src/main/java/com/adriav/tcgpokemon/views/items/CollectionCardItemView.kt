@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
 import com.adriav.tcgpokemon.database.entity.CardEntity
@@ -31,7 +33,7 @@ fun CollectionCardItem(card: CardEntity, onClick: (CardEntity) -> Unit) {
     ) {
         val imageURL = card.imageUrl.replace("HIGH","LOW")
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = card.name)
+            Text(text = card.name, modifier = Modifier.padding(horizontal = 4.dp), fontSize = 14.sp)
             AsyncImage(
                 model = imageURL,
                 contentDescription = card.name,

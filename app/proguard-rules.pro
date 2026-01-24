@@ -19,3 +19,28 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Prevent Gson from obfuscating your specific data models
+# Replace 'com.adriav.tcgpokemon' with your actual package name for models
+-keep class com.adriav.tcgpokemon.database.entity.CardEntity { *; }
+
+# Retrofit
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class retrofit2.** { *; }
+
+# Moshi
+-keep class com.squareup.moshi.** { *; }
+-keep class kotlin.Metadata { *; }
+
+# TCGdex SDK
+-keep class net.tcgdex.** { *; }
+
+
+# General Gson rules
+-keepattributes Signature, *Annotation*, EnclosingMethod
+-keep class com.google.gson.** { *; }
+
+# Missing Classes
+-dontwarn java.awt.image.BufferedImage
+-dontwarn javax.imageio.ImageIO
