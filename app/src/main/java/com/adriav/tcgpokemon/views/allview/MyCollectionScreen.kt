@@ -1,4 +1,4 @@
-package com.adriav.tcgpokemon.views
+package com.adriav.tcgpokemon.views.allview
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement

@@ -28,9 +28,9 @@ import com.adriav.tcgpokemon.navigation.Routes.SingleCard
 import com.adriav.tcgpokemon.navigation.Routes.SingleSerie
 import com.adriav.tcgpokemon.navigation.Routes.SingleSet
 import com.adriav.tcgpokemon.views.HomeScreen
-import com.adriav.tcgpokemon.views.MyCollectionScreen
 import com.adriav.tcgpokemon.views.allview.AllSeriesScreen
 import com.adriav.tcgpokemon.views.allview.AllSetsScreen
+import com.adriav.tcgpokemon.views.allview.MyCollectionScreen
 import com.adriav.tcgpokemon.views.search.SearchCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleCardScreen
 import com.adriav.tcgpokemon.views.singleview.SingleSerieScreen

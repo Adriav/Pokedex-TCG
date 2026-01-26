@@ -115,11 +115,12 @@ fun SingleCardScreen(
 @Composable
 fun CollectionButton(types: List<String>?, isCollected: Boolean, viewModel: SingleCardViewModel) {
     val typeColor = types?.get(0) ?: "Colorless"
+    val contentColor: Color = if (typeColor == "Lightning") Color.Black else Color.Unspecified
     val addColors = ButtonColors(
         containerColor = getTypeColor(typeColor),
         disabledContentColor = Color.Unspecified,
         disabledContainerColor = Color.Unspecified,
-        contentColor = Color.White
+        contentColor = contentColor
     )
     val removeColors = ButtonColors(
         containerColor = Color.Red,
@@ -179,9 +180,11 @@ fun DisplayCardEffect(cardEffect: String?) {
 @Composable
 fun ShowTypeHP(types: List<String>?, hp: Int, cardStage: String?, cardEvolveFrom: String?) {
     val type = types?.get(0) ?: "Colorless"
+    val contentColor: Color = if (type == "Lightning") Color.Black else Color.Unspecified
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = getTypeColor(type)
+            containerColor = getTypeColor(type),
+            contentColor = contentColor
         ), modifier = Modifier.padding(all = 4.dp)
     ) {
         Column(modifier = Modifier.padding(all = 8.dp)) {
