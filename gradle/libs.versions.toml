@@ -1,5 +1,6 @@
 [versions]
 agp = "8.13.2"
+firebaseBom = "34.8.0"
 tcgdexSdk = "2.0.2"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
@@ -15,6 +16,12 @@ kotlinxSerializationCore = "1.8.1"
 kotlinSerialization = "2.0.21"
 ksp = "2.0.21-1.0.27"
 runtimeLivedata = "1.10.0" # Version matches Kotlin 2.0.21
+playServices = "1.10.2"
+coilCompose = "2.5.0"
+daggerHilt = "2.57.1"
+hiltCompose = "1.2.0"
+room = "2.6.1"
+firebaseKtx = "22.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,11 +40,30 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
-
+# Navigation 3
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+# PlaySerives
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playServices" }
+# Coil
+coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilCompose" }
+# Dagger Hilt
+dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "daggerHilt" }
+dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "daggerHilt" }
+dagger-hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
+# Room
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+# Material Icons
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+# Firebase
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-ktx = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebaseKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
