@@ -31,6 +31,7 @@ import com.adriav.tcgpokemon.views.items.CardItemView
 import net.tcgdex.sdk.Extension
 import net.tcgdex.sdk.models.CardResume
 import net.tcgdex.sdk.models.Set
+import net.tcgdex.sdk.models.subs.SetCardCount
 
 @Composable
 fun SingleSetScreen(
@@ -88,6 +89,7 @@ fun SetImage(set: Set) {
 @Composable
 fun SetInfo(set: Set, navigateToSerie: (String) -> Unit) {
     val cardCount = set.cardCount
+    val releaseDate = set.releaseDate
     Column(modifier = Modifier.fillMaxWidth()) {
         Box(
             modifier = Modifier
@@ -117,58 +119,21 @@ fun SetInfo(set: Set, navigateToSerie: (String) -> Unit) {
             }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Row {
-                Text(text = "Official: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text(text = cardCount.official.toString(), fontSize = 20.sp)
-            }
+        if (releaseDate != null) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Row {
+                    Text(text = "Release Date: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text(text = releaseDate, fontSize = 20.sp)
+                }
 
-            Row {
-                Text(text = "Normal: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                Text(text = cardCount.normal.toString(), fontSize = 20.sp)
             }
-
+        } else {
+            CardCount(cardCount)
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            if (cardCount.reverse > 0) {
-                Row {
-                    Text(text = "Reverse: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text(text = cardCount.reverse.toString(), fontSize = 20.sp)
-                }
-            }
-
-            if (cardCount.holo > 0) {
-                Row {
-                    Text(text = "Holo: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text(text = cardCount.holo.toString(), fontSize = 20.sp)
-                }
-            }
-
-            cardCount.firstEd?.let {
-                if (it > 0) {
-                    Row {
-                        Text(
-                            text = "First Edition: ",
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
-                        Text(
-                            text = cardCount.firstEd.toString(),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp
-                        )
-                    }
-                }
-            }
-
-        }
     }
 }
 
@@ -179,8 +144,65 @@ fun CardsItems(cards: List<CardResume>, navigateToCard: (String) -> Unit) {
             Box(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
+                    .padding(horizontal = 32.dp)
                     .clickable { navigateToCard(cards[index].id) }) {
                 CardItemView(cards[index], index + 1)
+            }
+        }
+    }
+}
+
+@Composable
+fun CardCount(cardCount: SetCardCount) {
+    // Card Counts
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Row {
+            Text(text = "Official: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = cardCount.official.toString(), fontSize = 20.sp)
+        }
+
+        Row {
+            Text(text = "Normal: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+            Text(text = cardCount.normal.toString(), fontSize = 20.sp)
+        }
+
+    }
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        if (cardCount.reverse > 0) {
+            Row {
+                Text(text = "Reverse: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = cardCount.reverse.toString(), fontSize = 20.sp)
+            }
+        }
+
+        if (cardCount.holo > 0) {
+            Row {
+                Text(text = "Holo: ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text(text = cardCount.holo.toString(), fontSize = 20.sp)
+            }
+        }
+
+        cardCount.firstEd?.let {
+            if (it > 0) {
+                Row {
+                    Text(
+                        text = "First Edition: ",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                    Text(
+                        text = cardCount.firstEd.toString(),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp
+                    )
+                }
             }
         }
     }
