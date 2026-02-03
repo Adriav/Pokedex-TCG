@@ -74,7 +74,7 @@ fun ForceUpdateScreen() {
             Button(onClick = {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
-                    "https://github.com/Adriav/Pokedex-TCG/releases/tag/v1.0.0".toUri()
+                    "https://adriav.github.io/pokedex-tcg/".toUri()
                 )
                 context.startActivity(intent)
             }) {
