@@ -113,64 +113,7 @@ fun SearchCardScreen(
                                     fontWeight = FontWeight.Bold
                                 )
                             }
-                            /*
-                            Surface(
-                                tonalElevation = 3.dp,
-                                shadowElevation = 6.dp,
-                                modifier = Modifier
-                                    .height(100.dp)
-                                    .padding(horizontal = 16.dp)
-                                    .navigationBarsPadding()
-                            ) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-//                                        .height(64.dp)
-                                        .padding(horizontal = 16.dp),
-//                                        .navigationBarsPadding(),
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        text = "${selected.size} seleccionadas",
-                                        modifier = Modifier.weight(1f),
-                                        style = MaterialTheme.typography.bodyLarge
-                                    )
-
-                                    Button(
-                                        onClick = {
-                                            viewModel.addSelectedToCollection(cards.filter { it.id in selected })
-                                            Toast.makeText(context, "Cards added", Toast.LENGTH_SHORT).show()
-                                        }
-                                    ) {
-                                        Text("Agregar")
-                                    }
-                                }
-                            }
-                            */
-                            /*
-                            BottomAppBar (
-                                modifier = Modifier.height(75.dp)
-                            ) {
-                                Text(
-                                    text = "${selected.size} selected",
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .padding(16.dp)
-                                )
-                                Button(
-                                    onClick = {
-                                        viewModel.addSelectedToCollection(cards.filter { it.id in selected })
-                                        Toast.makeText(context, "Cards added", Toast.LENGTH_SHORT).show()
-                                    },
-                                    modifier = Modifier.padding(8.dp)
-                                ) {
-                                    Text("Add to Collection")
-                                }
-                            }
-
-                             */
                         }
-
                     }
                 ) { _ ->
                     DisplayCardGrid(
