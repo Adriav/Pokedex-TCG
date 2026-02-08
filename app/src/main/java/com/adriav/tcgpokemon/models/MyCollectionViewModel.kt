@@ -1,16 +1,24 @@
 package com.adriav.tcgpokemon.models
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.adriav.tcgpokemon.database.dao.CardDao
 import com.adriav.tcgpokemon.objects.CardFilter
 import com.adriav.tcgpokemon.objects.normalize
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MyCollectionViewModel @Inject constructor(dao: CardDao) : ViewModel() {
+class MyCollectionViewModel @Inject constructor(private val dao: CardDao) : ViewModel() {
     val collection = dao.getAllCards()
 
     private val _selectedFilter = MutableStateFlow<CardFilter?>(null)
@@ -20,7 +28,43 @@ class MyCollectionViewModel @Inject constructor(dao: CardDao) : ViewModel() {
     val searchQuery = _searchQuery
     private val _selectedSet = MutableStateFlow<String?>(null)
     val selectedSet = _selectedSet
+    private val _selectedCards = MutableStateFlow<Set<String>>(emptySet())
+    val selectedCards = _selectedCards.asStateFlow()
 
+    val selectionMode: StateFlow<Boolean> =
+        _selectedCards.map { it.isNotEmpty() }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
+    fun onCardLongPress(cardId: String) {
+        toggleSelection(cardId)
+    }
+
+    fun onCardClick(cardId: String) {
+        if (_selectedCards.value.isNotEmpty()) toggleSelection(cardId)
+    }
+
+    private fun toggleSelection(cardId: String) {
+        val current = _selectedCards.value.toMutableSet()
+        if (current.contains(cardId)) {
+            current.remove(cardId)
+        } else {
+            current.add(cardId)
+        }
+        _selectedCards.value = current
+    }
+
+    fun clearSelection() {
+        _selectedCards.value = emptySet()
+    }
+
+    fun removeSelectedFromCollection(cards: Set<String>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            cards.forEach { cardId ->
+                dao.deleteCardById(cardId)
+            }
+            clearSelection()
+        }
+    }
     val filteredCollection = combine(collection, selectedFilter, searchQuery, selectedSet)
     { cards, filter, query, set ->
         val normalizedQuery = query.normalize()

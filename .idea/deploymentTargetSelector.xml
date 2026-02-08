@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="Pokedex TCG">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2026-01-24T05:11:05.505383Z">
+        <DropdownSelection timestamp="2026-02-08T19:50:24.000217900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Adrian\.android\avd\Samsung_A56.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Adrian\.android\avd\Medium_Phone.avd" />
             </handle>
           </Target>
         </DropdownSelection>

@@ -115,7 +115,7 @@ fun SingleCardScreen(
 @Composable
 fun CollectionButton(types: List<String>?, isCollected: Boolean, viewModel: SingleCardViewModel) {
     val typeColor = types?.get(0) ?: "Colorless"
-    val contentColor: Color = if (typeColor == "Lightning") Color.Black else Color.Unspecified
+    val contentColor: Color = if (typeColor == "Lightning") Color.Black else Color.White
     val addColors = ButtonColors(
         containerColor = getTypeColor(typeColor),
         disabledContentColor = Color.Unspecified,
