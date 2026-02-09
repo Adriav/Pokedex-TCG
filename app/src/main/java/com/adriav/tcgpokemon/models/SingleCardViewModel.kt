@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adriav.tcgpokemon.database.dao.CardDao
 import com.adriav.tcgpokemon.database.entity.CardEntity
-import com.adriav.tcgpokemon.objects.CardImageMapper
+import com.adriav.tcgpokemon.objects.CardImageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SingleCardViewModel @Inject constructor(
     private val tcgdex: TCGdex,
-    private val dao: CardDao
+    private val dao: CardDao,
+    private val cardImageRepository: CardImageRepository
 ) : ViewModel() {
     private val _isCollected = MutableLiveData<Boolean>()
     val isCollected = _isCollected
@@ -95,7 +96,7 @@ class SingleCardViewModel @Inject constructor(
                 _trainerType.postValue(response.trainerType)
                 _energyType.postValue(response.energyType)
                 if (response.image == null) {
-                    _imageURL.postValue(CardImageMapper.map(_cardID.value))
+                    _imageURL.postValue(cardImageRepository.getImage(_cardID.value))
                 } else {
                     _imageURL.postValue(response.getImageUrl(Quality.HIGH, Extension.WEBP))
                 }

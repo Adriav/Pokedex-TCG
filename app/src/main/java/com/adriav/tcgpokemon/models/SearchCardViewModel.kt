@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adriav.tcgpokemon.database.dao.CardDao
 import com.adriav.tcgpokemon.database.entity.CardEntity
-import com.adriav.tcgpokemon.objects.CardImageMapper
+import com.adriav.tcgpokemon.objects.CardImageRepository
 import com.adriav.tcgpokemon.objects.normalize
 import com.adriav.tcgpokemon.views.search.SearchCardUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +30,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchCardViewModel @Inject constructor(
     private val tcgdex: TCGdex,
-    private val dao: CardDao
+    private val dao: CardDao,
+    private val cardImageRepository: CardImageRepository
 ) : ViewModel() {
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
@@ -84,7 +85,7 @@ class SearchCardViewModel @Inject constructor(
                     if (fullCard != null) {
                         var imageURL = fullCard.image
                         imageURL = if (imageURL == null) {
-                            CardImageMapper.map(card.id)
+                            cardImageRepository.getImage(card.id) ?: ""
                         } else {
                             fullCard.getImageUrl(Quality.HIGH, Extension.WEBP)
                         }
@@ -155,5 +156,9 @@ class SearchCardViewModel @Inject constructor(
     fun onQueryChange(query: String) {
         val normalizedQuery = query.normalize()
         _searchQuery.value = normalizedQuery
+    }
+
+    fun getCardImageRepository(): CardImageRepository {
+        return cardImageRepository
     }
 }
