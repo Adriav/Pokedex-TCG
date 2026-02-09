@@ -23,7 +23,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
-import com.adriav.tcgpokemon.objects.getCardResumeImageURL
+import com.adriav.tcgpokemon.objects.CardImageRepository
+import net.tcgdex.sdk.Extension
+import net.tcgdex.sdk.Quality
 import net.tcgdex.sdk.models.CardResume
 
 @Composable
@@ -31,6 +33,7 @@ fun CardSearchItemView(
     cardResume: CardResume,
     isSelected: Boolean,
     selectionMode: Boolean,
+    cardImageRepository: CardImageRepository,
     onClick: () -> Unit,
     onLongPress: () -> Unit
 ) {
@@ -42,7 +45,7 @@ fun CardSearchItemView(
                 onLongClick = onLongPress
             )
     ) {
-        CardPreview(cardResume)
+        CardPreview(cardResume, cardImageRepository)
         if (isSelected) {
             Box(
                 modifier = Modifier
@@ -62,7 +65,10 @@ fun CardSearchItemView(
 }
 
 @Composable
-private fun CardPreview(cardResume: CardResume) {
+private fun CardPreview(cardResume: CardResume, cardImageRepository: CardImageRepository) {
+    val imageURL = if (cardResume.image != null) cardResume.getImageUrl(Quality.LOW, Extension.WEBP)
+        .replace("LOW", "low")
+    else cardImageRepository.getImage(cardResume.id)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -73,7 +79,7 @@ private fun CardPreview(cardResume: CardResume) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = cardResume.name, modifier = Modifier.padding(horizontal = 8.dp))
             AsyncImage(
-                model = getCardResumeImageURL(cardResume),
+                model = imageURL,
                 contentDescription = cardResume.name,
                 placeholder = painterResource(R.drawable.loading_progress_icon),
                 error = painterResource(R.drawable.card_back),

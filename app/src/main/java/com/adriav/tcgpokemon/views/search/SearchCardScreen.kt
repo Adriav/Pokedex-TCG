@@ -149,6 +149,7 @@ fun DisplayCardGrid(
             Box {
                 CardSearchItemView(
                     cardResume = card,
+                    cardImageRepository = viewModel.getCardImageRepository(),
                     isSelected = card.id in selected,
                     selectionMode = selectionMode,
                     onClick = {
