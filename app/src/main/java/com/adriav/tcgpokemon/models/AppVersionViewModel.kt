@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.adriav.tcgpokemon.database.RemoteConfigManager
+import com.adriav.tcgpokemon.objects.CardImageRepository
 import com.adriav.tcgpokemon.objects.isVersionSupported
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,10 +14,17 @@ import javax.inject.Inject
 @HiltViewModel
 class AppVersionViewModel @Inject constructor(
     private val remoteConfigManager: RemoteConfigManager,
+    private val imageRepository: CardImageRepository,
     application: Application
 ) : AndroidViewModel(application) {
     private val _mustUpdate = MutableStateFlow(false)
     val mustUpdate = _mustUpdate
+
+    init {
+        viewModelScope.launch {
+            imageRepository.loadImages()
+        }
+    }
 
     fun checkVersion() {
         viewModelScope.launch {

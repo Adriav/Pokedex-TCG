@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.adriav.tcgpokemon.R
 import com.adriav.tcgpokemon.models.SingleSetViewModel
+import com.adriav.tcgpokemon.objects.CardImageRepository
 import com.adriav.tcgpokemon.objects.CenteredProgressIndicator
 import com.adriav.tcgpokemon.views.items.CardItemView
 import net.tcgdex.sdk.Extension
@@ -41,7 +42,7 @@ fun SingleSetScreen(
     navigateToSerie: (String) -> Unit
 ) {
     val set by viewModel.set.observeAsState(null)
-    val cards by viewModel.setCards.observeAsState(null)
+    val cards by viewModel.setCards.observeAsState(emptyList())
 
     viewModel.setSetId(setID)
     viewModel.loadSet()
@@ -55,7 +56,7 @@ fun SingleSetScreen(
                 modifier =
                     Modifier.padding(vertical = 8.dp)
             )
-            CardsItems(cards!!, navigateToCard)
+            CardsItems(cards, viewModel.getImageRepository(), navigateToCard)
         }
     }
 }
@@ -138,7 +139,11 @@ fun SetInfo(set: Set, navigateToSerie: (String) -> Unit) {
 }
 
 @Composable
-fun CardsItems(cards: List<CardResume>, navigateToCard: (String) -> Unit) {
+fun CardsItems(
+    cards: List<CardResume>,
+    cardImageRepository: CardImageRepository,
+    navigateToCard: (String) -> Unit
+) {
     LazyColumn {
         items(cards.size) { index ->
             Box(
@@ -146,7 +151,7 @@ fun CardsItems(cards: List<CardResume>, navigateToCard: (String) -> Unit) {
                     .padding(vertical = 16.dp)
                     .padding(horizontal = 32.dp)
                     .clickable { navigateToCard(cards[index].id) }) {
-                CardItemView(cards[index], index + 1)
+                CardItemView(cards[index], cardImageRepository, index + 1)
             }
         }
     }

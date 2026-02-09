@@ -3,6 +3,7 @@ package com.adriav.tcgpokemon.models
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adriav.tcgpokemon.objects.CardImageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import javax.inject.Inject
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @HiltViewModel
 class SingleSetViewModel @Inject constructor(
-    private val tcgdex: TCGdex
+    private val tcgdex: TCGdex,
+    private val cardImageRepository: CardImageRepository
 ) : ViewModel() {
     private val _setId = MutableLiveData<String>()
     private val _set = MutableLiveData<Set>()
@@ -36,5 +38,9 @@ class SingleSetViewModel @Inject constructor(
                 e.printStackTrace()
             }
         }
+    }
+
+    fun getImageRepository(): CardImageRepository {
+        return cardImageRepository
     }
 }

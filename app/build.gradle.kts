@@ -89,6 +89,8 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.ktx)
+    // Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     testImplementation(libs.junit)
 
