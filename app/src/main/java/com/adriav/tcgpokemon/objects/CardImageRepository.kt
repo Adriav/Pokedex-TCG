@@ -24,8 +24,6 @@ class CardImageRepository @Inject constructor(
                 imageMap = Json.decodeFromString(json)
             }
 
-            Log.d("RemoteConfig", "Images loaded: ${imageMap.size}")
-
         } catch (e: Exception) {
             Log.e("RemoteConfig", "Error loading images", e)
         }
