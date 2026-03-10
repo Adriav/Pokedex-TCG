@@ -29,7 +29,7 @@ class CardImageRepository @Inject constructor(
         }
     }
 
-    fun getImage(cardId: String): String? {
-        return imageMap[cardId]
+    fun getImage(cardId: String): String {
+        return imageMap[cardId] ?: "no_image"
     }
 }
